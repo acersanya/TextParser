@@ -1,4 +1,4 @@
-package text;
+package com.epam.text.entitites;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +38,10 @@ public class Parser {
 	public void parser(String path) {
 		FileRead file = new FileRead(path);
 		String text = file.read();
+		//parseToParagraph(text);
 		parseToSentence(text);
-		ascendingOrderSentenceLength(ascendingList);
+		System.out.println("OK");
+	//	ascendingOrderSentenceLength(ascendingList);
 	}
 
 	/**
@@ -49,6 +51,15 @@ public class Parser {
 		for (TextElement i : codeList) {
 			System.out.println(i);
 		}
+	}
+	
+	public void parseToParagraph(String text){
+//	 Pattern pattern = Pattern.compile(CODE_REGEX);
+//	 Matcher mather = pattern.matcher(text);
+//	 while(mather.find()){
+//		 System.out.println(mather.group());
+//	 }
+//		
 	}
 
 	/**
@@ -66,7 +77,7 @@ public class Parser {
 			temp = stringTokenizerToDeleteCode.nextToken().trim().replaceAll(SPACE_REGEX, " ");
 			matcher = pattern.matcher(temp);
 			if (matcher.matches()) {
-				codeList.add(new Code(temp + "\n"));
+				codeList.add(new Sentence(temp + "\n"));
 			} else {
 				sb.append(temp + "\n");
 				codeList.add(new Sentence(temp + "\n"));
@@ -82,6 +93,7 @@ public class Parser {
 			ascendingList.add(new Sentence(temp));
 			textList.add(sentence);
 		}
+		System.out.println(textList);
 	}
 
 
@@ -93,14 +105,17 @@ public class Parser {
 		Word word;
 		Matcher matcher = patternWord.matcher(text);
 		while (matcher.find()) {
-			temp = matcher.group();
+			temp = matcher.group().trim();
 			Matcher match = patternWordAndSign.matcher(temp);
 			while (match.find()) {
 				temp = match.group();
+				if(!(temp.length()==0)){
 				word = wordFactory.getWord(temp);
 				sentence.add(word);
+				}	
 			}
 		}
+		System.out.println(sentence);
 		return sentence;
 	}
 
@@ -121,11 +136,10 @@ public class Parser {
 			public int compare(Sentence o1, Sentence o2) {
 			return	o1.toString().length()-o2.toString().length(); 
 			}
-		});		Collections.reverse(text);
-		
+		});		
+			Collections.reverse(text);
 		for(Sentence i: text){
-			System.out.println(i);
-		}
-		
+			//System.out.println(i);
+		}	
 	}
 }

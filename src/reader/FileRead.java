@@ -17,7 +17,6 @@ private	String path;
 
 	/**
 	 * Reading text from file
-	 * 
 	 * @return String object
 	 */
 	public String read() {
